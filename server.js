@@ -27,7 +27,7 @@ res.sendFile(path.join(__dirname, "/public/stats.html"));
 
 //api routes
 app.post("/submit", ({ body }, res) => {
-  Workout.create(body)
+  db.Workout.create(body)
     .then((dbWorkout) => {
       res.json(dbWorkout);
     })
@@ -35,6 +35,17 @@ app.post("/submit", ({ body }, res) => {
       res.json(err);
     });
 });
+app.get("/api/workouts", (req, res) =>{
+db.Workout.find({})
+  .then((dbWorkout)=>{
+res.json(dbWorkout);
+})
+  .catch(err => {
+res.json(err);
+      };
+    );
+  };
+);
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
