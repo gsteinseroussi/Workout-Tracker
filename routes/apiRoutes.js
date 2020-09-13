@@ -34,10 +34,12 @@ app.get("/api/workouts/:id", async (req, res) => {
   }
 });
 
-app.patch("/api/workouts/:id", async (req, res) => {
+app.put("/api/workouts/:id", async (req, res) => {
   try {
-    await Workout.findByIdAndUpdate(req.params.id, req.body);
-    await Workout.save();
+    const workout = await Workout.findById(req.params.id);
+    const newExercise = req.body;
+    workout.exercise.push(newExercise);
+    await workout.save();
     res.send(workout);
   } catch (err) {
     res.status(500).send(err);
