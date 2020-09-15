@@ -4,7 +4,10 @@ const app = express();
 
 //api routes
 app.post("/api/workouts", async (req, res) => {
+  console.log("req.body", req.body);
   const workout = new Workout(req.body);
+  workout.totalDuration();
+  console.log("workout", workout);
 
   try {
     await workout.save();
@@ -35,10 +38,12 @@ app.get("/api/workouts/:id", async (req, res) => {
 });
 
 app.put("/api/workouts/:id", async (req, res) => {
+  console.log("put request", req.body);
   try {
     const workout = await Workout.findById(req.params.id);
+    console.log(req.params.id);
     const newExercise = req.body;
-    workout.exercise.push(newExercise);
+    workout.exercises.push(newExercise);
     await workout.save();
     res.send(workout);
   } catch (err) {
